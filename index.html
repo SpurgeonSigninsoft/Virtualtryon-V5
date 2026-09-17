@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07111f" />
+  <title>FrameFlow — Virtual Glasses Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="FrameFlow home"><span class="brand-mark">F</span><span>FrameFlow</span></a>
+    <div class="status"><span></span> Browser-side demo</div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">VIRTUAL TRY-ON STUDIO</div>
+      <h1>Find the frame that <em>feels like you.</em></h1>
+      <p>Upload a frame, add your photo, and see the result in three simple steps.</p>
+    </section>
+
+    <nav class="stepper" aria-label="Try-on progress">
+      <button class="step active" data-go="1"><span class="step-number">1</span><span><b>Add frames</b><small>Product image</small></span></button>
+      <div class="step-line"><i></i></div>
+      <button class="step" data-go="2"><span class="step-number">2</span><span><b>Add your photo</b><small>Upload or camera</small></span></button>
+      <div class="step-line"><i></i></div>
+      <button class="step" data-go="3"><span class="step-number">3</span><span><b>Your look</b><small>Preview & download</small></span></button>
+    </nav>
+
+    <section class="panel active" data-panel="1">
+      <div class="panel-copy"><span class="kicker">STEP 01</span><h2>Start with the glasses</h2><p>Use a clear, front-facing product photo. We’ll remove the background automatically.</p></div>
+      <label class="dropzone" id="glassesDrop">
+        <input id="glassesInput" type="file" accept="image/png,image/jpeg,image/webp" />
+        <div class="upload-icon">↥</div><h3>Drop your glasses image here</h3><p>or <span>browse files</span> · PNG, JPG or WebP</p><small>For the cleanest result, use a plain contrasting background.</small>
+      </label>
+      <div class="preview-card hidden" id="glassesPreviewCard">
+        <div class="checker"><img id="glassesPreview" alt="Glasses with background removed" /></div>
+        <div><span class="success-pill" id="glassesStatus">Preparing image…</span><h3 id="glassesFileName">Your frame</h3><p id="glassesMessage">Your selected image is being processed.</p></div>
+        <button class="icon-button" id="replaceGlasses" aria-label="Replace glasses">↻</button>
+      </div>
+      <div class="actions"><span></span><button class="primary" id="toStep2" disabled>Continue to your photo <b>→</b></button></div>
+    </section>
+
+    <section class="panel" data-panel="2">
+      <div class="panel-copy"><span class="kicker">STEP 02</span><h2>Now, add your photo</h2><p>Choose an existing portrait or take one now. Face forward in even lighting for the best fit.</p></div>
+      <div class="choice-grid">
+        <label class="choice-card"><input id="faceInput" type="file" accept="image/png,image/jpeg,image/webp" /><span class="choice-icon">▧</span><div><h3>Upload a photo</h3><p>Choose a portrait from your device</p></div><b>→</b></label>
+        <button class="choice-card" id="openCamera"><span class="choice-icon">◉</span><div><h3>Use live camera</h3><p>Take a photo with your webcam</p></div><b>→</b></button>
+      </div>
+      <div class="face-preview hidden" id="facePreviewCard"><img id="facePreview" alt="Selected face" /><div><span class="success-pill">✓ Photo ready</span><h3>Looking good</h3><p>We’ll map the frame using facial landmarks.</p></div><button class="icon-button" id="replaceFace" aria-label="Replace photo">↻</button></div>
+      <div class="camera-wrap hidden" id="cameraWrap"><video id="camera" autoplay playsinline></video><div class="camera-guide"></div><div class="camera-controls"><button class="secondary" id="closeCamera">Cancel</button><button class="shutter" id="capture" aria-label="Take photo"><i></i></button><span></span></div></div>
+      <div class="actions"><button class="text-button" data-back="1">← Back</button><button class="primary" id="createTryOn" disabled>Create my try-on <b>✦</b></button></div>
+    </section>
+
+    <section class="panel result-panel" data-panel="3">
+      <div class="panel-copy centered"><span class="kicker">STEP 03</span><h2>Your new look</h2><p>Your frame has been positioned using browser-side face landmarks.</p></div>
+      <div class="result-stage"><canvas id="resultCanvas"></canvas><div class="processing hidden" id="processing"><div class="spinner"></div><h3>Fitting your frames…</h3><p>Finding facial landmarks and calculating the best placement</p></div><span class="ai-badge">✦ Smart fit</span></div>
+      <div class="fit-controls"><label>Frame size <input id="scaleControl" type="range" min="75" max="135" value="100" /></label><label>Vertical position <input id="yControl" type="range" min="-40" max="40" value="0" /></label><button class="secondary" id="resetFit">Reset fit</button></div>
+      <div class="actions"><button class="text-button" data-back="2">← Try another photo</button><div><button class="secondary" id="startOver">Start over</button><button class="primary" id="downloadResult">Download result <b>↓</b></button></div></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <canvas id="workCanvas" hidden></canvas>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
